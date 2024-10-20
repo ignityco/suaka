@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Nunito_Sans } from "next/font/google";
 import "./globals.css";
 
-const PJS = Plus_Jakarta_Sans({
+const PJS = Nunito_Sans({
   subsets: ['latin'],
   display: 'swap',
 })

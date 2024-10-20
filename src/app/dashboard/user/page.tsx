@@ -1,9 +1,11 @@
+"use client";
+
 import Image from "next/image";
 
-export default function Home() {
+export default function Page() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center relative px-4">
-      Home
+      <h1>Dashboard User</h1>
     </div>
   );
 }
