@@ -25,7 +25,7 @@ import iconStar from "@/assets/svg/star.svg";
 import iconBath from "@/assets/svg/bathtub.svg";
 import iconBed from "@/assets/svg/bed.svg";
 import iconBills from "@/assets/svg/bills.svg";
-import iconPdf from "@/assets/svg/Pdf.svg";
+import iconPdf from "@/assets/svg/pdf.svg";
 import iconArrowFac from "@/assets/svg/arrow-facilities.svg";
 
 export default function Page() {

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Signin from './Signin';
 import Signup from './Signup';
-import iconUser from "@/assets/svg/User.svg";
+import iconUser from "@/assets/svg/user.svg";
 
 const Header = () => {
     const router = useRouter();
