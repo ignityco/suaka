@@ -22,7 +22,7 @@ const MyProperty = () => {
                 </div>
             </div>
             <div className="text-gray-400 text-sm my-4">
-                1 Results Found
+                2 Results Found
             </div>
             <div className="space-y-2 mb-4">
                 <div className="cursor-pointer hover:scale-[1.015] duration-300 transition-all flex items-center justify-between p-2 bg-white rounded-md shadow-md">
@@ -88,7 +88,7 @@ const MyProperty = () => {
                         </div>
                     </div>
                     <div className="text-center flex items-center space-x-1">
-                        <button className="relative px-3 text-sm rounded-full border border-primary hover:bg-primary hover:text-white duration-300 transition-all p-1">
+                        <button onClick={() => { router.push('/dashboard/profile/edit/1') }} className="relative px-3 text-sm rounded-full border border-primary hover:bg-primary hover:text-white duration-300 transition-all p-1">
                             Edit
                         </button>
                         <button onClick={() => { setIsOpenDelete(true) }} className="relative px-3 text-sm rounded-full border border-primary hover:bg-primary hover:text-white duration-300 transition-all p-1">
