@@ -18,6 +18,7 @@
     "react-datepicker": "^7.5.0",
     "react-dom": "^18",
     "react-minimal-modal": "^2.1.0",
+    "sharp": "^0.33.5",
     "swiper": "^11.1.14"
   },
   "devDependencies": {
