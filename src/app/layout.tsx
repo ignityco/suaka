@@ -8,6 +8,11 @@ const PJS = Nunito_Sans({
   display: 'swap',
 })
 
+export const metadata: Metadata = {
+  title: 'Suaka',
+  description: 'Discover the perfect property that suits your lifestyle. Explore our curated listings and find your ideal property today!',
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
