@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Image from "next/image";
 import FilterCard from "@/components/FilterCard";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 import iconLove from "@/assets/svg/love.svg";
@@ -15,7 +15,7 @@ import iconBills from "@/assets/svg/bills.svg";
 import iconBuilding from "@/assets/svg/building.svg";
 import imgDummyProp from "@/assets/png/dummy-prop.png";
 
-export default function Page() {
+const PropertyPageContent = () => {
   const [PropertyFilter, setPropertyFilter] = useState("To Rent");
   const searchParams = useSearchParams();
   const category = searchParams.get('category');
@@ -135,5 +135,13 @@ export default function Page() {
       </div>
       <Footer />
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PropertyPageContent />
+    </Suspense>
   );
 }
