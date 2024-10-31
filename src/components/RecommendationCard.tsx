@@ -33,11 +33,11 @@ const RecommendationCard = ({ category }: { category: string }) => {
                     direction={'horizontal'}
                     slidesPerView={'auto'}
                     breakpoints={{
-                        640: {
+                        0: {
                             slidesPerView: 1.2,
                         },
                         768: {
-                            slidesPerView: 4.2,
+                            slidesPerView: 2.5,
                         },
                         1024: {
                             slidesPerView: 4.2,

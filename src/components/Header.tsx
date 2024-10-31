@@ -19,7 +19,7 @@ const Header = () => {
                     <div className="w-6 h-6 rounded-full bg-gray-300"></div>
                     <h1 className="font-bold">Suaka</h1>
                 </div>
-                <div className="flex items-center space-x-6">
+                <div className="hidden md:flex items-center space-x-6">
                     <button onClick={() => { router.push('/property?category=rent') }} className="hover:text-gray-500 duration-250 transition-all">To Rent</button>
                     <button onClick={() => { router.push('/property?category=sale') }} className="hover:text-gray-500 duration-250 transition-all">For Sale</button>
                 </div>

@@ -9,8 +9,8 @@ import Image from "next/image";
 const Footer = () => {
     return (
         <footer className="bg-primary text-white">
-            <div className="max-w-7xl border-b border-white py-8 container mx-auto flex justify-between items-start">
-                <div className="w-2/4">
+            <div className="max-w-7xl border-b border-white py-8 px-4 md:px-0 container mx-auto md:flex md:justify-between md:items-start">
+                <div className="md:w-2/4 border-b border-white/50 md:border-none mb-6 md:mb-0 pb-4 md:pb-0">
                     <div className="flex items-center mb-4">
                         <div className="bg-gray-300 rounded-full w-8 h-8"></div>
                         <span className="ml-3 text-lg font-semibold">Suaka</span>
@@ -34,7 +34,7 @@ const Footer = () => {
                         </button>
                     </div>
                 </div>
-                <div className="w-1/4">
+                <div className="md:w-1/4  border-b border-white/50 md:border-none mb-6 md:mb-0 pb-4 md:pb-0">
                     <h3 className="font-semibold mb-4">Help</h3>
                     <ul>
                         <li className="mb-2"><a href="#" className="hover:text-soft duration-200 transition-all">Terms & Conditions</a></li>
@@ -43,7 +43,7 @@ const Footer = () => {
                         <li className="mb-2"><a href="#" className="hover:text-soft duration-200 transition-all">About Company</a></li>
                     </ul>
                 </div>
-                <div className="w-1/4">
+                <div className="md:w-1/4  border-b border-white/50 md:border-none mb-6 md:mb-0 pb-4 md:pb-0">
                     <h3 className="font-semibold mb-4">Navigation</h3>
                     <ul>
                         <li className="mb-2"><a href="#" className="hover:text-soft duration-200 transition-all">For Sale</a></li>
@@ -52,7 +52,7 @@ const Footer = () => {
                         <li className="mb-2"><a href="#" className="hover:text-soft duration-200 transition-all">Guides</a></li>
                     </ul>
                 </div>
-                <div className="w-1/4">
+                <div className="md:w-1/4">
                     <h3 className="font-semibold mb-4">Contact Us</h3>
                     <ul>
                         <li className="mb-2 flex items-center">
