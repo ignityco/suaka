@@ -62,10 +62,11 @@ export default function Page() {
 
   return (
     <div>
-      <div className="max-w-7xl mx-auto py-4 relative">
+      <div className="max-w-7xl mx-auto py-4 px-4 lg:px-0 relative">
         <Header />
-        <div className="fixed bottom-0 right-0 m-5 z-50 bg-white rounded-full">
-          <button onClick={() => { }} className="bg-second text-white border border-second rounded-full px-6 py-1 font-semibold hover:bg-second/85 duration-300 transition-all flex items-center space-x-2"><Image className="w-5 h-5" src={iconWA} width={50} height={50} alt="" /><span>Free Visit</span></button>
+        <div className="fixed bottom-0 right-0 m-5 z-50 rounded-full">
+          <a href="#reserve" className="lg:hidden bg-second text-white border border-second rounded-full px-6 py-1 font-semibold flex items-center justify-center mb-2 space-x-2 w-full"><span>Reserve</span></a>
+          <button onClick={() => { }} className="bg-second text-white border border-second rounded-full px-6 py-1 font-semibold flex items-center space-x-2"><Image className="w-5 h-5" src={iconWA} width={50} height={50} alt="" /><span>Free Visit</span></button>
         </div>
         <div>
           <button onClick={() => { router.back() }} className="flex items-center">
@@ -76,10 +77,10 @@ export default function Page() {
           </button>
         </div>
         <div className="mt-4 mb-10">
-          <div className="grid grid-cols-12 gap-x-4">
-            <div className="col-span-8">
+          <div className="md:grid md:grid-cols-12 gap-x-4 space-y-2 md:space-y-0">
+            <div className="md:col-span-8">
               <div className="relative">
-                <Image className="rounded-xl h-[425px] object-cover" src={imgDummyP1} width={1500} height={1500} alt="" />
+                <Image className="rounded-xl h-[250px] lg:h-[425px] object-cover" src={imgDummyP1} width={1500} height={1500} alt="" />
                 <div className="absolute top-0 left-0">
                   <button className="bg-white p-1 rounded-full m-2.5">
                     <Image className="w-[30px] h-[30px]" src={iconLove} width={50} height={50} alt="" />
@@ -95,8 +96,8 @@ export default function Page() {
                 </div>
               </div>
             </div>
-            <div className="col-span-4">
-              <div className="grid grid-cols-2 gap-4 h-full">
+            <div className="md:col-span-4">
+              <div className="grid grid-cols-2 gap-2 md:gap-4 h-full">
                 <div>
                   <Image className="rounded-xl h-full object-cover" src={imgDummyP2} width={500} height={500} alt="" />
                 </div>
@@ -115,11 +116,11 @@ export default function Page() {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-x-4 mt-4">
-            <div className="col-span-8">
+          <div className="lg:grid lg:grid-cols-12 gap-x-4 mt-4">
+            <div className="lg:col-span-8">
               <div className="flex items-center justify-between">
-                <p className="text-xl">Villa Uma: A Modern Luxury Escape w/Pool in Umalas</p>
-                <button className="rounded-md bg-gray-300 text-gray-900 text-sm font-semibold flex items-center space-x-2 py-1.5 px-3">
+                <p className="text-lg md:text-xl">Villa Uma: A Modern Luxury Escape w/Pool in Umalas</p>
+                <button className="min-w-fit rounded-md bg-gray-300 text-gray-900 text-sm font-semibold flex items-center space-x-2 py-1.5 px-3">
                   <Image className="w-4 h-4" src={iconShare} width={50} height={50} alt="" />
                   <span className="leading-none">Share</span>
                 </button>
@@ -169,7 +170,7 @@ export default function Page() {
               <div className="mt-4">
                 <p className="font-bold text-lg">Facilities</p>
                 <div className="grid grid-cols-6">
-                  <div className="col-span-3 mt-2 grid grid-cols-2 gap-x-2">
+                  <div className="col-span-6 md:col-span-3 mt-2 grid grid-cols-2 gap-x-2">
                     <div className="flex items-center space-x-2">
                       <Image className="h-3 w-auto" src={iconArrowFac} width={50} height={50} alt="" />
                       <p>WiFi</p>
@@ -216,14 +217,17 @@ export default function Page() {
               </div>
               <div className="mt-4">
                 <p className="font-bold text-lg">See Where You'll Stay</p>
-                <div className="mt-2 relative">
+                <div className="hidden md:block mt-2 relative">
                   <iframe className="rounded-xl w-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126214.4056201533!2d115.14187074748004!3d-8.67250475807647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd2409b0e5e80db%3A0xe27334e8ccb9374a!2sDenpasar%2C%20Kota%20Denpasar%2C%20Bali!5e0!3m2!1sid!2sid!4v1730036777727!5m2!1sid!2sid" height="450" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <div className="block md:hidden mt-2 relative">
+                  <iframe className="rounded-xl w-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126214.4056201533!2d115.14187074748004!3d-8.67250475807647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd2409b0e5e80db%3A0xe27334e8ccb9374a!2sDenpasar%2C%20Kota%20Denpasar%2C%20Bali!5e0!3m2!1sid!2sid!4v1730036777727!5m2!1sid!2sid" height="250" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                 </div>
               </div>
               <div className="mt-4">
                 <p className="font-bold text-lg">Reviews</p>
                 <div className="mt-2">
-                  <div className="flex items-center space-x-4">
+                  <div className="md:flex md:items-center md:space-x-4 space-y-4 md:space-y-0">
                     <div>
                       <button className="flex items-center space-x-1">
                         <svg className="text-[#FFDF2B]" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -271,8 +275,8 @@ export default function Page() {
                     </div>
                   </div>
                 </div>
-                <div className="mt-3">
-                  <div className="grid grid-cols-3 gap-6">
+                <div className="mt-5 md:mt-3">
+                  <div className="grid md:grid-cols-3 gap-6">
                     {Array.from({ length: 6 }).map((_, index) => (
                       <div key={index} className="rounded-lg">
                         <div className="flex items-center mb-2">
@@ -315,7 +319,8 @@ export default function Page() {
                 </div>
               </div>
             </div>
-            <div className="col-span-4">
+            <div id="reserve" className="lg:col-span-4">
+              <p className="lg:hidden mt-10 mb-2 text-xl font-bold">Reserve</p>
               <div className="bg-white border rounded-lg shadow-md p-3">
                 <p className="font-semibold">Rental Period</p>
                 <div className="flex items-center space-x-2 mt-2">
