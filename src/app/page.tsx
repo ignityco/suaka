@@ -76,7 +76,14 @@ export default function Home() {
           </div>
         </div>
         <Modal width={1250} blur animationDuration={200} open={isOpenGuide} hideIcon onOpenChange={setIsOpenGuide}>
-          <div className="p-5">
+          <div className="p-5 relative">
+            <div className="absolute top-0 right-0 m-2">
+              <button
+                onClick={()=>{setIsOpenGuide(!isOpenGuide)}}
+                className="text-black border-b border-gray-900">
+                Close
+              </button>
+            </div>
             <p className="font-bold text-4xl">Your Guide to Property Deals</p>
             <p className="text-sm mt-2 font-semibold text-justify md:text-start">Welcome to our all-inclusive guide to finding your perfect property! Whether you're seeking <br className="hidden md:block" /> a long-term home, mid-term, a short-term retreat, or ready to make a purchase, we're here<br className="hidden md:block" /> to support you through every step of the journey.</p>
             <p className="mt-5 text-lg font-bold underline">Rent Guide</p>
