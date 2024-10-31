@@ -17,8 +17,13 @@ import imgDummyProp from "@/assets/png/dummy-prop.png";
 
 const PropertyPageContent = () => {
   const [PropertyFilter, setPropertyFilter] = useState("To Rent");
+  const [isVisible, setIsVisible] = useState(false);
   const searchParams = useSearchParams();
   const category = searchParams.get('category');
+
+  const toggleCard = () => {
+    setIsVisible(!isVisible);
+  };
 
   useEffect(() => {
     if (category) {
@@ -40,7 +45,7 @@ const PropertyPageContent = () => {
         <div className="mt-10 z-50 relative">
           <h1 className="text-3xl font-semibold text-center">Find Your Perfect Property Deals</h1>
           <div className="mt-14 w-full flex justify-center">
-            <FilterCard propertyFilter={PropertyFilter} />
+            <FilterCard propertyFilter={PropertyFilter} toggleCard={toggleCard} />
           </div>
         </div>
 
