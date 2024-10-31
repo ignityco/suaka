@@ -8,7 +8,14 @@ interface SigninProps {
 
 const Signin: React.FC<SigninProps> = ({ setIsOpenSignin, setIsOpenSignup }) => {
     return (
-        <div className="bg-white p-8 rounded-lg shadow-md w-full">
+        <div className="bg-white p-8 rounded-lg shadow-md w-full relative">
+            <div className="absolute top-0 right-0 m-2">
+                <button
+                    onClick={() => { setIsOpenSignin(false) }}
+                    className="text-black border-b border-gray-900">
+                    Close
+                </button>
+            </div>
             <h1 className="text-2xl font-bold mb-2">
                 Sign In
             </h1>
@@ -46,7 +53,7 @@ const Signin: React.FC<SigninProps> = ({ setIsOpenSignin, setIsOpenSignup }) => 
                 <div className="text-center">
                     <p className="text-gray-600">
                         Create an account?
-                        <button onClick={()=>{
+                        <button onClick={() => {
                             setIsOpenSignin(false);
                             setIsOpenSignup(true);
                         }} className="text-blue-500 ml-1">
