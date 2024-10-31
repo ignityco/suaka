@@ -21,7 +21,7 @@ const Order = () => {
             <div className="text-gray-400 text-sm mb-4">
                 1 Results Found
             </div>
-            <div className="grid grid-cols-3 gap-4 mt-4">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                 {Array.from({ length: 1 }).map((_, index) => (
                     <div key={index} className="cursor-pointer bg-white rounded-lg shadow-md hover:scale-[1.015] duration-300 transition-all overflow-hidden">
                         <div className="px-3 pt-3 relative">

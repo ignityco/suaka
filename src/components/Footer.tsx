@@ -9,13 +9,13 @@ import Image from "next/image";
 const Footer = () => {
     return (
         <footer className="bg-primary text-white">
-            <div className="max-w-7xl border-b border-white py-8 px-4 md:px-0 container mx-auto md:flex md:justify-between md:items-start">
+            <div className="max-w-7xl border-b border-white py-8 px-4 lg:px-0 container mx-auto md:flex md:justify-between space-x-0 md:space-x-4 lg:space-x-0 md:items-start">
                 <div className="md:w-2/4 border-b border-white/50 md:border-none mb-6 md:mb-0 pb-4 md:pb-0">
                     <div className="flex items-center mb-4">
                         <div className="bg-gray-300 rounded-full w-8 h-8"></div>
                         <span className="ml-3 text-lg font-semibold">Suaka</span>
                     </div>
-                    <p className="mb-4">Discover the perfect rental that suits your lifestyle. <br /> Explore our curated listings and find your ideal <br /> property today!</p>
+                    <p className="mb-4">Discover the perfect rental that suits your lifestyle. <br className="hidden lg:block" /> Explore our curated listings and find your ideal <br /> property today!</p>
                     <div className="flex space-x-4">
                         <button className="rounded-full border p-2 border-white hover:bg-white">
                             <div className="w-5 h-5">

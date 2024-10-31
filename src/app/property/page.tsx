@@ -58,10 +58,10 @@ const PropertyPageContent = () => {
             {Array.from({ length: 8 }).map((_, index) => (
               <div key={index} className="bg-white rounded-lg shadow-md hover:scale-[1.015] duration-300 transition-all overflow-hidden">
                 <div className="md:px-3 md:pt-3 relative">
-                  <button className="cursor-pointer bg-white rounded-full p-1 absolute top-0 right-0 m-5">
+                  <button className="cursor-pointer bg-white rounded-full p-1 absolute top-0 right-0 m-2 md:m-5">
                     <Image className="w-6 h-6" src={iconLove} width={50} height={50} alt="icon" />
                   </button>
-                  <div className="absolute bottom-0 left-0 ml-5 mb-2 rounded-full flex items-center space-x-2 p-1 bg-brown-soft px-3">
+                  <div className="absolute bottom-0 left-0 ml-2 md:ml-5 mb-2 rounded-full flex items-center space-x-2 p-1 bg-brown-soft px-3">
                     <Image className="w-5 h-5" src={iconBuilding} width={50} height={50} alt="icon" />
                     <p className="text-xs text-white">Villa</p>
                   </div>

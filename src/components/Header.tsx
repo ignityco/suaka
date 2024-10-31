@@ -31,10 +31,10 @@ const Header = () => {
                 </div>
             </div>
 
-            <Modal blur animationDuration={200} open={IsOpenSignin} hideIcon onOpenChange={setIsOpenSignin}>
+            <Modal position="center" blur animationDuration={200} open={IsOpenSignin} hideIcon onOpenChange={setIsOpenSignin}>
                 <Signin setIsOpenSignin={setIsOpenSignin} setIsOpenSignup={setIsOpenSignup} />
             </Modal>
-            <Modal blur animationDuration={200} open={IsOpenSignup} hideIcon onOpenChange={setIsOpenSignup}>
+            <Modal position="center" blur animationDuration={200} open={IsOpenSignup} hideIcon onOpenChange={setIsOpenSignup}>
                 <Signup setIsOpenSignup={setIsOpenSignup} setIsOpenSignin={setIsOpenSignin} />
             </Modal>
         </div>

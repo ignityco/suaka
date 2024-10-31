@@ -70,7 +70,7 @@ export default function Home() {
             <button onClick={() => { setIsOpenGuide(true) }} className="px-6 py-2 rounded-full bg-second text-white text-sm hover:bg-second/85 duration-300 transition-all">See Guide Detail</button>
           </div>
         </div>
-        <Modal width={1250} blur animationDuration={200} open={isOpenGuide} hideIcon onOpenChange={setIsOpenGuide}>
+        <Modal width={1250} position="center" blur animationDuration={200} open={isOpenGuide} hideIcon onOpenChange={setIsOpenGuide}>
           <div className="p-5 relative">
             <div className="absolute top-0 right-0 m-2">
               <button

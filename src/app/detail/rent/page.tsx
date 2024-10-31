@@ -384,7 +384,7 @@ export default function Page() {
                   <button onClick={() => { setIsOpenPayment(true) }} className="bg-second text-white border border-second rounded-full px-4 py-1 font-semibold hover:bg-second/85 duration-300 transition-all">Submit</button>
                 </div>
               </div>
-              <Modal blur animationDuration={200} open={isOpenPayment} hideIcon onOpenChange={setIsOpenPayment}>
+              <Modal position="center" blur animationDuration={200} open={isOpenPayment} hideIcon onOpenChange={setIsOpenPayment}>
                 <div>
                   <p>Payment</p>
                 </div>
