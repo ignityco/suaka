@@ -9,13 +9,13 @@ export default function Page() {
   const router = useRouter();
   return (
     <div>
-      <div className="max-w-7xl mx-auto py-4">
+      <div className="max-w-7xl mx-auto py-4 px-4 lg:px-0 relative">
         <Header />
         <div className="mb-10">
           <nav aria-label="breadcrumb" className="w-full mt-6 mb-1">
             <ol className="flex w-full flex-wrap items-center">
               <li className="flex cursor-pointer items-center text-sm text-gray-900 transition-colors duration-300 hover:text-slate-800">
-                <button onClick={()=>{router.push("/")}}>Home</button>
+                <button onClick={() => { router.push("/") }}>Home</button>
                 <span className="pointer-events-none mx-2 text-gray-900">
                   /
                 </span>
@@ -27,13 +27,21 @@ export default function Page() {
                 </span>
               </li>
               <li className="flex cursor-pointer items-center text-sm text-gray-900 transition-colors duration-300 hover:text-slate-800 border-b border-primary">
-                <button onClick={()=>{router.push("/help/privacy")}}>Privacy & Policy</button>
+                <button onClick={() => { router.push("/help/privacy") }}>Privacy & Policy</button>
               </li>
             </ol>
           </nav>
-          <div className="grid grid-cols-5 gap-x-10 relative">
+          <div className="mt-4 lg:mt-2">
+            <button onClick={() => { router.back() }} className="flex items-center">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.2563 9.50724C5.91457 9.84892 5.91457 10.4038 6.2563 10.7455L11.5053 15.9937C11.847 16.3354 12.402 16.3354 12.7437 15.9937C13.0854 15.6521 13.0854 15.0972 12.7437 14.7555L8.11258 10.125L12.741 5.49452C13.0827 5.15284 13.0827 4.59794 12.741 4.25626C12.3992 3.91458 11.8443 3.91458 11.5025 4.25626L6.25356 9.5045L6.2563 9.50724Z" fill="#000000" />
+              </svg>
+              <span className="border-b border-primary">Back</span>
+            </button>
+          </div>
+          <div className="md:grid md:grid-cols-5 gap-x-10 relative">
             <div className="col-span-1">
-              <p className="sticky top-0 pt-5 font-extrabold text-3xl">Privacy & Policy</p>
+              <p className="md:sticky top-0 pt-5 font-extrabold text-3xl">Privacy & Policy</p>
             </div>
             <div className="col-span-4 pt-5 text-justify">
               <b>Terms and Conditions for Suaka Application</b><br />
