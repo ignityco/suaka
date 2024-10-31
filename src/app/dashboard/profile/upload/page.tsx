@@ -51,7 +51,7 @@ export default function Page() {
 
     return (
         <div>
-            <div className="max-w-7xl mx-auto py-4">
+            <div className="max-w-7xl mx-auto py-4 px-4 lg:px-0 relative">
                 <Header />
                 <div className="mb-10">
                     <nav aria-label="breadcrumb" className="w-full mt-6 mb-1">
@@ -88,7 +88,7 @@ export default function Page() {
                         </button>
                     </div>
                     <div className="mt-6">
-                        <div className="rounded-lg border border-gray-400 relative p-5">
+                        <div className="rounded-lg border border-gray-400 relative p-2 pt-4 md:pt-5 md:p-5">
                             <div className="px-2 text-sm text-gray-900 bg-base-background absolute ml-2 top-0 translate-y-[-50%] left-0 ">
                                 <p>Owner Information</p>
                             </div>
@@ -105,7 +105,7 @@ export default function Page() {
                                 <input className="outline-none border border-gray-300 rounded px-4 py-2 w-full" id="phonenumber" placeholder="" type="text" />
                             </div>
                         </div>
-                        <div className="rounded-lg border border-gray-400 relative p-5 mt-4">
+                        <div className="rounded-lg border border-gray-400 relative p-2 pt-4 md:pt-5 md:p-5 mt-4">
                             <div className="px-2 text-sm text-gray-900 bg-base-background absolute ml-2 top-0 translate-y-[-50%] left-0 ">
                                 <p>Property Information</p>
                             </div>
@@ -183,7 +183,7 @@ export default function Page() {
                                 </div>
                             </div>
                             <div className="mb-4 pt-4">
-                                <div className="flex items-center space-x-4">
+                                <div className="lg:flex lg:items-center space-y-4 lg:space-y-0 lg:space-x-4">
                                     <div className="rounded-lg border border-gray-400 relative p-5 w-full">
                                         <div className="px-2 text-sm text-gray-900 bg-base-background absolute ml-2 top-0 translate-y-[-50%] left-0 ">
                                             <p>Property Type</p>
@@ -238,7 +238,7 @@ export default function Page() {
                                         <div className="px-2 text-sm text-gray-900 bg-base-background absolute ml-2 top-0 translate-y-[-50%] left-0 ">
                                             <p>Facilities</p>
                                         </div>
-                                        <div className="grid grid-cols-3 gap-x-4">
+                                        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-4">
                                             <div className="mt-1 flex items-center">
                                                 <div className="inline-flex items-center">
                                                     <label className="flex items-center cursor-pointer relative">
@@ -416,10 +416,10 @@ export default function Page() {
                                         <UploadImages />
                                 }
                             </div>
+                        </div>
                             <div className="mt-6">
                                 <button className="bg-second hover:bg-second/85 transition-all duration-300 py-2 rounded-full text-white w-full">Save</button>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>

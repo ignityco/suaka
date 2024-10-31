@@ -50,7 +50,7 @@ const UploadImages = () => {
     return (
         <div className="p-5">
             <h1 className="text-xl font-bold mb-4">Choose Room Categories</h1>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
                 {categories.map((category) => (
                     <div key={category} className="border p-4 rounded flex flex-col">
                         <div className="inline-flex items-center mb-2">
