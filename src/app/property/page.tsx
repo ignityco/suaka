@@ -6,6 +6,7 @@ import Image from "next/image";
 import FilterCard from "@/components/FilterCard";
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import FloatingFilterCard from "@/components/FloatingFilterCard";
 
 import iconLove from "@/assets/svg/love.svg";
 import iconArrowRedirect from "@/assets/svg/arrow-redirect.svg";
@@ -39,7 +40,7 @@ const PropertyPageContent = () => {
 
   return (
     <div>
-      <div className="max-w-7xl mx-auto py-4">
+      <div className="max-w-7xl mx-auto py-4 px-4 lg:px-0 relative">
         <Header />
 
         <div className="mt-10 z-50 relative">
@@ -53,10 +54,10 @@ const PropertyPageContent = () => {
         <div className="pt-10 pb-3">
           <p className="text-gray-400">Available in over 1,000 places</p>
 
-          <div className="grid grid-cols-4 gap-4 mt-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mt-4">
             {Array.from({ length: 8 }).map((_, index) => (
               <div key={index} className="bg-white rounded-lg shadow-md hover:scale-[1.015] duration-300 transition-all overflow-hidden">
-                <div className="px-3 pt-3 relative">
+                <div className="md:px-3 md:pt-3 relative">
                   <button className="cursor-pointer bg-white rounded-full p-1 absolute top-0 right-0 m-5">
                     <Image className="w-6 h-6" src={iconLove} width={50} height={50} alt="icon" />
                   </button>
@@ -64,11 +65,11 @@ const PropertyPageContent = () => {
                     <Image className="w-5 h-5" src={iconBuilding} width={50} height={50} alt="icon" />
                     <p className="text-xs text-white">Villa</p>
                   </div>
-                  <Image alt="Modern luxury villa with pool" className="rounded-lg w-full h-48 object-cover" height={300} src={imgDummyProp} width={400} />
+                  <Image alt="Modern luxury villa with pool" className="rounded-lg w-full h-36 md:h-48 object-cover" height={300} src={imgDummyProp} width={400} />
                 </div>
                 <div className="p-3">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold">
+                    <h3 className="md:text-lg font-semibold">
                       Villa Uma: A Modern Lux...
                     </h3>
                     <Image className="w-6 h-6" src={iconArrowRedirect} width={50} height={50} alt="icon" />
@@ -77,7 +78,7 @@ const PropertyPageContent = () => {
                     Umalas, Indonesia
                   </p>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4 mt-2">
+                    <div className="flex items-center space-x-1 md:space-x-4 mt-2">
                       <div className="flex items-center space-x-1">
                         <Image className="w-auto h-6" src={iconBed} width={50} height={50} alt="icon" />
                         <span className="text-gray-500 text-sm ml-1">
@@ -137,6 +138,7 @@ const PropertyPageContent = () => {
             </div>
           </div>
         </div>
+        <FloatingFilterCard toggleCard={toggleCard} isVisible={isVisible} />
       </div>
       <Footer />
     </div>
