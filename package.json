@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^2.8.1",
+    "@stripe/stripe-js": "^4.9.0",
     "babel-polyfill": "^6.26.0",
     "date-fns": "^4.1.0",
     "draft-js": "^0.11.7",
@@ -19,6 +21,7 @@
     "react-dom": "^18",
     "react-minimal-modal": "^2.1.0",
     "sharp": "^0.33.5",
+    "stripe": "^17.2.1",
     "swiper": "^11.1.14"
   },
   "devDependencies": {

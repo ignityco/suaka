@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -8,7 +8,13 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 import { useRouter } from "next/navigation";
-import Modal from 'react-minimal-modal'
+import Modal from 'react-minimal-modal';
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { StripeElementsOptions } from "@stripe/stripe-js";
+import { BookingProvider } from "@/contexts/BookingContext";
+import CheckoutForm from "@/components/payment/CheckoutForm";
+import Complete from "@/components/payment/Complete";
 
 import imgDummyP1 from "@/assets/png/dummy-p-1.webp";
 import imgDummyP2 from "@/assets/png/dummy-p-2.jpeg";
@@ -28,6 +34,8 @@ import iconBills from "@/assets/svg/bills.svg";
 import iconPdf from "@/assets/svg/pdf.svg";
 import iconArrowFac from "@/assets/svg/arrow-facilities.svg";
 
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '');
+
 export default function Page() {
   const router = useRouter();
   const [StartDate, setStartDate] = useState(new Date());
@@ -35,12 +43,80 @@ export default function Page() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const datePickerRef = useRef<HTMLDivElement>(null);
-  const [isOpenPayment, setIsOpenPayment] = useState(false)
+  const [isOpenPayment, setIsOpenPayment] = useState(false);
+  const [IsBills, setIsBills] = useState(true);
+  const [IsConfirmed, setIsConfirmed] = useState(false);
+
+  const [clientSecret, setClientSecret] = useState("");
+  const [dpmCheckerLink, setDpmCheckerLink] = useState("");
+  const [confirmed, setConfirmed] = useState(false);
+
+  const handleRadioChange = (value: any) => {
+    setIsBills(value);
+  };
 
   const handleClickOutside = (event: MouseEvent) => {
     if (datePickerRef.current && !datePickerRef.current.contains(event.target as Node)) {
       setIsPickerOpen(false);
     }
+  };
+
+  useEffect(() => {
+    checkAndFetchPayment();
+  }, []);
+
+  const checkAndFetchPayment = async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const existingClientSecret = await urlParams.get("payment_intent_client_secret");
+
+    if (existingClientSecret) {
+      // If the payment intent client secret is present in the URL, we set it and confirm
+      setClientSecret(existingClientSecret);
+      setConfirmed(true);
+      setIsConfirmed(true);
+    } else {
+      // Only fetch a new payment intent if there is no existing client secret
+      fetchPaymentIntent();
+    }
+  }
+
+  const fetchPaymentIntent = async () => {
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setClientSecret(data.clientSecret);
+        setDpmCheckerLink(data.dpmCheckerLink);
+      } else {
+        console.error("Error fetching payment intent:", data.error);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
+
+  const options: StripeElementsOptions = {
+    clientSecret,
+    appearance: {
+      theme: 'stripe',
+      variables: {
+        colorPrimary: '#0c8ce9',
+      },
+    },
+  };
+
+  const villa = {
+    id: 'prod_R6PegAngNkSMTR',
+    name: 'Villa Uma: A Modern Luxury Escape w/Pool in Umalas',
+    description: `Indulge in the luxury of Villa Uma, a stunning 4-bedroom retreat set in the serene surroundings of Umalas. This exquisite villa offers an ideal blend of contemporary design, comfort, and convenience, perfect for those looking to experience the best of Bali’s vibrant lifestyle.`,
+    price: 1135100,
+    discount: 1235100,
+    billCosts: 150000
   };
 
   React.useEffect(() => {
@@ -330,13 +406,84 @@ export default function Page() {
                   <button onClick={() => { setRentalPeriod("12 Month") }} className={`${RentalPeriod === "12 Month" ? "bg-second text-white" : "bg-white"} border border-second rounded-md px-2 py-1 font-semibold hover:bg-second hover:text-white duration-300 transition-all`}>12 Month</button>
                 </div>
                 <div className="mt-2">
-                  <p className="font-semibold">Total (USD)</p>
+                  <p className="font-semibold">Period Price (USD)</p>
                   <p className="font-semibold mt-1">
                     <span className="rounded-md leading-none text-primary text-xl font-bold mr-2">
-                      $11,351
+                      {calculatePrice(RentalPeriod, villa)}
                     </span>
                     <span className="leading-none text-gray-400 line-through">
-                      $12,351
+                      {calculateDiscountPrice(RentalPeriod, villa)}
+                    </span>
+                  </p>
+                </div>
+                <div className="mt-2">
+                  <p className="font-semibold">With bills</p>
+                  <div>
+                    <div className="flex items-center space-x-4">
+                      <div className="mt-1 flex items-center">
+                        <div className="inline-flex items-center">
+                          <label className="flex items-center cursor-pointer relative">
+                            <input
+                              defaultChecked={IsBills} // Menyinkronkan dengan state
+                              type="radio"
+                              name="bills"
+                              className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
+                              id="checkYes"
+                              onChange={() => handleRadioChange(true)}
+                            />
+                            <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" strokeWidth="1">
+                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
+                              </svg>
+                            </span>
+                          </label>
+                        </div>
+                        <button className="block w-full text-start rounded-full px-2 py-1" onClick={() => handleRadioChange(true)}>
+                          <p>Yes</p>
+                        </button>
+                      </div>
+
+                      <div className="mt-1 flex items-center">
+                        <div className="inline-flex items-center">
+                          <label className="flex items-center cursor-pointer relative">
+                            <input
+                              type="radio"
+                              name="bills"
+                              className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
+                              id="checkNo"
+                              onChange={() => handleRadioChange(false)}
+                            />
+                            <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" strokeWidth="1">
+                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
+                              </svg>
+                            </span>
+                          </label>
+                        </div>
+                        <button className="block w-full text-start rounded-full px-2 py-1" onClick={() => handleRadioChange(false)}>
+                          <p>No</p>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-2">
+                  {IsBills &&
+                    <div>
+                      <p className="font-semibold">Bill Costs (USD)</p>
+                      <span className="rounded-md leading-none text-gray-900 font-bold mr-2">
+                        {new Intl.NumberFormat("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        }).format(villa.billCosts / 100)
+                        }
+                      </span>
+                    </div>
+                  }
+                  <p className="font-semibold mt-2">Total (USD)</p>
+                  <p className="font-semibold mt-1">
+                    <span className="rounded-md leading-none text-primary text-xl font-bold mr-2">
+                      {IsBills ? calculatePriceWBills(RentalPeriod, villa) : calculatePrice(RentalPeriod, villa)}
                     </span>
                   </p>
                 </div>
@@ -392,71 +539,39 @@ export default function Page() {
               <Modal position="center" blur animationDuration={200} open={isOpenPayment} hideIcon onOpenChange={setIsOpenPayment}>
                 <div>
                   <p>Payment</p>
+                  <BookingProvider>
+                    {clientSecret && (
+                      <Elements options={options} stripe={stripePromise}>
+                        <CheckoutForm dpmCheckerLink={dpmCheckerLink} />
+                      </Elements>
+                    )}
+                  </BookingProvider>
                 </div>
               </Modal>
-              {/* <div className="bg-white border rounded-lg shadow-md p-3 mt-3">
-                <p className="font-semibold">Pay with</p>
-                <div className="mt-2">
-                  <div className="flex items-center justify-between border border-gray-300 rounded-md p-2">
-                    <div className="flex items-center space-x-2">
-                      <Image className="w-6 h-6" src={iconCC} width={50} height={50} alt="" />
-                      <p>Credit card or debit card</p>
+
+              {confirmed && IsConfirmed &&
+                <div className="fixed left-0 bottom-0 m-5 w-full">
+                  <div id="toast-default" className="flex items-center w-full max-w-xs p-4 text-white bg-primary rounded-lg shadow" role="alert">
+                    <div className="inline-flex items-center justify-center flex-shrink-0">
+                      <svg className="w-6 h-6" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_2286_9574)">
+                          <path d="M11.8125 3.93799L5.6875 10.0627L2.625 7.00049" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_2286_9574">
+                            <rect width="14" height="14" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
                     </div>
-                    <div className="inline-flex items-center">
-                      <label className="flex items-center cursor-pointer relative">
-                        <input type="checkbox" className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800" id="check" />
-                        <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                          </svg>
-                        </span>
-                      </label>
-                    </div>
+                    <div className="ms-3 text-sm font-normal">See your Transaction History</div>
+                    <button onClick={() => { router.push('/dashboard/profile'); }} type="button" className="text-white text-sm border-b border-white ms-auto -mx-1.5 -my-1.5 inline-flex items-center justify-center" data-dismiss-target="#toast-default" aria-label="Close">
+                      <span>Check</span>
+                    </button>
                   </div>
                 </div>
-                <div className="mt-2">
-                  <div className="flex items-center justify-between border border-gray-300 rounded-md p-2">
-                    <div className="flex items-center space-x-2">
-                      <Image className="w-6 h-6" src={iconPaypal} width={50} height={50} alt="" />
-                      <p>Paypal</p>
-                    </div>
-                    <div className="inline-flex items-center">
-                      <label className="flex items-center cursor-pointer relative">
-                        <input type="checkbox" className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800" id="check" />
-                        <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                          </svg>
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-2">
-                  <div className="flex items-center justify-between border border-gray-300 rounded-md p-2">
-                    <div className="flex items-center space-x-2">
-                      <Image className="w-6 h-6" src={iconApplePay} width={50} height={50} alt="" />
-                      <p>Apple Pay</p>
-                    </div>
-                    <div className="inline-flex items-center">
-                      <label className="flex items-center cursor-pointer relative">
-                        <input type="checkbox" className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800" id="check" />
-                        <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                          </svg>
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-2">
-                  <button className="text-sm border-b border-black">More options +</button>
-                </div>
-                <div className="mt-5">
-                  <button onClick={() => { }} className="bg-second text-white border border-second rounded-full px-4 py-1 font-semibold hover:bg-second/85 duration-300 transition-all">Submit</button>
-                </div>
-              </div> */}
+              }
+
             </div>
           </div>
         </div>
@@ -466,3 +581,80 @@ export default function Page() {
     </div>
   );
 }
+
+const calculatePrice = (period: any, villa: any) => {
+  let price = 0;
+  switch (period) {
+    case "1 Month":
+      price = villa.price * 1;
+      break;
+    case "3 Month":
+      price = villa.price * 3;
+      break;
+    case "6 Month":
+      price = villa.price * 6;
+      break;
+    case "12 Month":
+      price = villa.price * 12;
+      break;
+    default:
+      price = 0;
+  }
+
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(price / 100);
+};
+
+const calculatePriceWBills = (period: any, villa: any) => {
+  let price = 0;
+  switch (period) {
+    case "1 Month":
+      price = villa.price * 1;
+      break;
+    case "3 Month":
+      price = villa.price * 3;
+      break;
+    case "6 Month":
+      price = villa.price * 6;
+      break;
+    case "12 Month":
+      price = villa.price * 12;
+      break;
+    default:
+      price = 0;
+  }
+
+  let totalPrice = price + villa.billCosts;
+
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(totalPrice / 100);
+};
+
+const calculateDiscountPrice = (period: any, villa: any) => {
+  let price = 0;
+  switch (period) {
+    case "1 Month":
+      price = villa.discount * 1;
+      break;
+    case "3 Month":
+      price = villa.discount * 3;
+      break;
+    case "6 Month":
+      price = villa.discount * 6;
+      break;
+    case "12 Month":
+      price = villa.discount * 12;
+      break;
+    default:
+      price = 0;
+  }
+
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(price / 100);
+};
