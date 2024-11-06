@@ -28,7 +28,7 @@ export async function POST(request) {
         name: 'Villa Uma: A Modern Luxury Escape w/Pool in Umalas',
         description: `Indulge in the luxury of Villa Uma, a stunning 4-bedroom retreat set in the serene surroundings of Umalas. This exquisite villa offers an ideal blend of contemporary design, comfort, and convenience, perfect for those looking to experience the best of Bali’s vibrant lifestyle.`,
         price: 1235100,
-      } //product metadata
+      }, //product metadata
     });
 
     // Return the client secret and additional data if necessary

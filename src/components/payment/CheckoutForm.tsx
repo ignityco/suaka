@@ -56,7 +56,7 @@ export default function CheckoutForm({ dpmCheckerLink }: CheckoutFormProps) {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "https://suaka.netlify.app/detail/rent",
+        return_url: "http://localhost:3000/detail/rent",
       },
     });
 

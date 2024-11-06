@@ -14,7 +14,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { StripeElementsOptions } from "@stripe/stripe-js";
 import { BookingProvider } from "@/contexts/BookingContext";
 import CheckoutForm from "@/components/payment/CheckoutForm";
-import Complete from "@/components/payment/Complete";
+import { handleEmailForm } from "@/app/actions";
 
 import imgDummyP1 from "@/assets/png/dummy-p-1.webp";
 import imgDummyP2 from "@/assets/png/dummy-p-2.jpeg";
@@ -46,6 +46,8 @@ export default function Page() {
   const [isOpenPayment, setIsOpenPayment] = useState(false);
   const [IsBills, setIsBills] = useState(true);
   const [IsConfirmed, setIsConfirmed] = useState(false);
+  const [hasRun, setHasRun] = useState(false);
+  const [Email, setEmail] = useState("");
 
   const [clientSecret, setClientSecret] = useState("");
   const [dpmCheckerLink, setDpmCheckerLink] = useState("");
@@ -62,18 +64,33 @@ export default function Page() {
   };
 
   useEffect(() => {
-    checkAndFetchPayment();
-  }, []);
+    if (hasRun) {
+      checkAndFetchPayment();
+    }
+    setHasRun(true);
+  }, [hasRun]);
 
   const checkAndFetchPayment = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const existingClientSecret = await urlParams.get("payment_intent_client_secret");
+    const emailData = localStorage.getItem('emailData');
+
+    const data = {
+      propertyName: 'Villa Uma: A Modern Luxury Escape w/Pool in Umalas',
+      to: emailData as string,
+    }
+
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key as keyof typeof data, data[key as keyof typeof data]);
+    }
 
     if (existingClientSecret) {
       // If the payment intent client secret is present in the URL, we set it and confirm
       setClientSecret(existingClientSecret);
       setConfirmed(true);
       setIsConfirmed(true);
+      handleEmailForm(formData);
     } else {
       // Only fetch a new payment intent if there is no existing client secret
       fetchPaymentIntent();
@@ -85,7 +102,7 @@ export default function Page() {
       const response = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
+        body: JSON.stringify({ email: Email, items: [{ id: "xl-tshirt" }] }),
       });
 
       const data = await response.json();
@@ -530,10 +547,13 @@ export default function Page() {
                 </div>
                 <div className="mt-2">
                   <p className="font-semibold">Email</p>
-                  <input className="mt-1 border border-gray-300 rounded px-4 py-2 w-full outline-none" id="email" type="email" />
+                  <input onChange={(e) => { setEmail(e.target.value) }} value={Email} className="mt-1 border border-gray-300 rounded px-4 py-2 w-full outline-none" id="email" type="email" />
                 </div>
                 <div className="mt-5">
-                  <button onClick={() => { setIsOpenPayment(true) }} className="bg-second text-white border border-second rounded-full px-4 py-1 font-semibold hover:bg-second/85 duration-300 transition-all">Submit</button>
+                  <button onClick={() => { 
+                    setIsOpenPayment(true) ;
+                      window.localStorage.setItem('emailData', Email);
+                    }} className="bg-second text-white border border-second rounded-full px-4 py-1 font-semibold hover:bg-second/85 duration-300 transition-all">Submit</button>
                 </div>
               </div>
               <Modal position="center" blur animationDuration={200} open={isOpenPayment} hideIcon onOpenChange={setIsOpenPayment}>
